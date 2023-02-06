@@ -40,6 +40,7 @@ sonarqube {
         property "sonar.projectKey", "afroze-project-management_project-api"
         property "sonar.organization", "afroze-project-management"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.projectName", "Project API"
     }
 }
 

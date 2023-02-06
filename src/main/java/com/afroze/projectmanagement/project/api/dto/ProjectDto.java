@@ -1,5 +1,6 @@
 package com.afroze.projectmanagement.project.api.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectDto {
@@ -33,23 +34,16 @@ public class ProjectDto {
         return tags;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
-    public List<TaskDto> getTasks() {
-        return tasks;
-    }
-
     public void setTasks(List<TaskDto> tasks) {
-        this.tasks = tasks;
+        List<TaskDto> copy = new ArrayList<>();
+        for(TaskDto task: tasks) {
+            copy.add(task);
+        }
+        this.tasks = copy;
     }
 
     public long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(long companyId) {
-        this.companyId = companyId;
-    }
 }

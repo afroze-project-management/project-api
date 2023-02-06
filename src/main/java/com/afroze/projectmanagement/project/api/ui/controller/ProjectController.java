@@ -25,6 +25,7 @@ public class ProjectController {
     private final ProjectService projectService;
     private final ModelMapper mapper;
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP2")
     public ProjectController(ProjectService projectService, ModelMapper mapper) {
         this.projectService = projectService;
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);

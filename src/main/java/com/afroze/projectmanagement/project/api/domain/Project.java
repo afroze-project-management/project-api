@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -41,11 +43,11 @@ public class Project extends Auditable<String, Long> {
     }
 
     public Set<Task> getTasks() {
-        return tasks;
+        return Collections.unmodifiableSet(tasks);
     }
 
     public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
+        this.tasks = new HashSet<Task>(tasks);
     }
 
     public long getCompanyId() {

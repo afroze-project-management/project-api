@@ -4,6 +4,7 @@ import com.afroze.projectmanagement.project.api.dto.ProjectSummaryDto;
 import com.afroze.projectmanagement.project.api.dto.TaskDto;
 import com.afroze.projectmanagement.project.api.exception.ProjectAlreadyExistsException;
 import com.afroze.projectmanagement.project.api.exception.ProjectNotFoundException;
+import com.afroze.projectmanagement.project.api.security.Permissions;
 import com.afroze.projectmanagement.project.api.service.ProjectService;
 import com.afroze.projectmanagement.project.api.ui.model.*;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class ProjectController {
     }
 
     @GetMapping("/project")
+    @PreAuthorize("hasAuthority('" + Permissions.READ_PROJECT + "')")
     public ResponseEntity<HttpResponseModel<List<ProjectSummaryResponseModel>>> getAll() {
         List<ProjectSummaryDto> projects = projectService.getAll();
         if(projects.isEmpty()) {
@@ -41,6 +44,7 @@ public class ProjectController {
     }
 
     @GetMapping("/company/{companyId}/projects")
+    @PreAuthorize("hasAuthority('" + Permissions.READ_PROJECT + "')")
     public ResponseEntity<HttpResponseModel<List<ProjectSummaryResponseModel>>> getAllByCompany(@PathVariable("companyId") int companyId) {
         List<ProjectSummaryDto> projects = projectService.getAllByCompanyId(companyId);
         if(projects.isEmpty()) {
@@ -52,6 +56,7 @@ public class ProjectController {
     }
 
     @GetMapping("/project/{projectId}/")
+    @PreAuthorize("hasAuthority('" + Permissions.READ_PROJECT + "')")
     public ResponseEntity<HttpResponseModel<ProjectResponseModel>> getById(@PathVariable("projectId") int projectId) {
         try {
             ProjectDto project = projectService.getById(projectId);
@@ -63,6 +68,7 @@ public class ProjectController {
     }
 
     @PostMapping("/project")
+    @PreAuthorize("hasAuthority('" + Permissions.WRITE_PROJECT + "')")
     public ResponseEntity<HttpResponseModel<ProjectResponseModel>> create(@RequestBody @Valid ProjectRequestModel project) {
         ProjectDto dto = mapper.map(project, ProjectDto.class);
 
@@ -76,6 +82,7 @@ public class ProjectController {
     }
 
     @PostMapping("/project/{projectId}/tasks")
+    @PreAuthorize("hasAuthority('" + Permissions.WRITE_TASK + "')")
     public ResponseEntity<HttpResponseModel<ProjectResponseModel>> addTasks(
             @PathVariable("projectId") int projectId,
             @RequestBody @Valid TaskListRequestModel taskModel) {
@@ -88,5 +95,12 @@ public class ProjectController {
         } catch (ProjectNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(HttpResponseModel.failure(null, e.getLocalizedMessage()));
         }
+    }
+
+    @DeleteMapping("/project/{projectId}/")
+    @PreAuthorize("hasAuthority('" + Permissions.DELETE_PROJECT + "')")
+    public ResponseEntity<HttpResponseModel<ProjectResponseModel>> delete(@PathVariable("projectId") int projectId) {
+        projectService.delete(projectId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }

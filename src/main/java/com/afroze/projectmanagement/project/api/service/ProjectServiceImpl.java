@@ -133,4 +133,24 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.deleteAll(projectsToDelete);
         }
     }
+
+    @Override
+    public ProjectDto addTaskToProject(long projectId, TaskDto taskDto) throws ProjectNotFoundException {
+        Project projectToUpdate = projectRepository.findById(projectId).orElse(null);
+        if(projectToUpdate == null) {
+            throw new ProjectNotFoundException(projectId);
+        }
+
+        Task tasksToAdd =  mapper.map(taskDto, Task.class);
+
+        tasksToAdd.setProject(projectToUpdate);
+        taskRepository.save(tasksToAdd);
+
+        List<Task> addedTasks = taskRepository.findByProject(projectToUpdate);
+        List<TaskDto> addedTaskDtos =  mapper.map(addedTasks, new TypeToken<List<TaskDto>>(){}.getType());
+        ProjectDto updatedProject = mapper.map(projectToUpdate, ProjectDto.class);
+        updatedProject.setTasks(addedTaskDtos);
+
+        return updatedProject;
+    }
 }

@@ -85,6 +85,22 @@ public class ProjectController {
 
     @PostMapping("/project/{projectId}/tasks")
     @PreAuthorize("hasAuthority('" + Permissions.WRITE_TASK + "')")
+    public ResponseEntity<HttpResponseModel<ProjectResponseModel>> addTask(
+            @PathVariable("projectId") int projectId,
+            @RequestBody @Valid TaskRequestModel taskModel) {
+        try {
+            TaskDto taskDtos = mapper.map(taskModel, TaskDto.class);
+            ProjectDto updatedProject = projectService.addTaskToProject(projectId, taskDtos);
+            ProjectResponseModel response = mapper.map(updatedProject, ProjectResponseModel.class);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(HttpResponseModel.success(response));
+        } catch (ProjectNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(HttpResponseModel.failure(null, e.getLocalizedMessage()));
+        }
+    }
+
+    @PostMapping("/project/{projectId}/bulktasks")
+    @PreAuthorize("hasAuthority('" + Permissions.WRITE_TASK + "')")
     public ResponseEntity<HttpResponseModel<ProjectResponseModel>> addTasks(
             @PathVariable("projectId") int projectId,
             @RequestBody @Valid TaskListRequestModel taskModel) {

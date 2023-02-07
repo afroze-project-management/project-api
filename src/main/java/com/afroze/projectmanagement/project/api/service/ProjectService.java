@@ -17,4 +17,5 @@ public interface ProjectService {
     ProjectDto addTasksToProject(long projectId, List<TaskDto> taskDtos) throws ProjectNotFoundException;
     List<ProjectSummaryDto> getAllByCompanyId(int companyId);
     void deleteAllByCompanyId(long companyId);
+    ProjectDto addTaskToProject(long projectId, TaskDto taskDtos) throws ProjectNotFoundException;
 }

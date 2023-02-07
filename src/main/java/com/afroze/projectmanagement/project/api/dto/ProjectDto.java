@@ -35,15 +35,22 @@ public class ProjectDto {
     }
 
     public void setTasks(List<TaskDto> tasks) {
-        List<TaskDto> copy = new ArrayList<>();
-        for(TaskDto task: tasks) {
-            copy.add(task);
-        }
-        this.tasks = copy;
+        this.tasks = tasks;
     }
 
     public long getCompanyId() {
         return companyId;
     }
 
+    public void setCompanyId(long companyId) {
+        this.companyId = companyId;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public List<TaskDto> getTasks() {
+        return tasks;
+    }
 }

@@ -125,4 +125,12 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(ProjectServiceImpl::mapProjectDtoToProjectSummary)
                 .toList();
     }
+
+    @Override
+    public void deleteAllByCompanyId(long companyId) {
+        List<Project> projectsToDelete = projectRepository.findAllByCompanyId(companyId);
+        if(!projectsToDelete.isEmpty()) {
+            projectRepository.deleteAll(projectsToDelete);
+        }
+    }
 }

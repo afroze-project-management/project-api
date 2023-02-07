@@ -33,3 +33,4 @@ build/
 /out/production/resources/application.yml
 
 /.gradle/
+/out/

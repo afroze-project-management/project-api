@@ -46,7 +46,8 @@ public class ProjectController {
 
     @GetMapping("/company/{companyId}/projects")
     @PreAuthorize("hasAuthority('" + Permissions.READ_PROJECT + "')")
-    public ResponseEntity<HttpResponseModel<List<ProjectSummaryResponseModel>>> getAllByCompany(@PathVariable("companyId") int companyId) {
+    public ResponseEntity<HttpResponseModel<List<ProjectSummaryResponseModel>>> getAllByCompany(
+            @PathVariable("companyId") int companyId) {
         List<ProjectSummaryDto> projects = projectService.getAllByCompanyId(companyId);
         if(projects.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -100,8 +101,17 @@ public class ProjectController {
 
     @DeleteMapping("/project/{projectId}/")
     @PreAuthorize("hasAuthority('" + Permissions.DELETE_PROJECT + "')")
-    public ResponseEntity<HttpResponseModel<ProjectResponseModel>> delete(@PathVariable("projectId") int projectId) {
+    public ResponseEntity<HttpResponseModel<ProjectResponseModel>> delete(
+            @PathVariable("projectId") int projectId) {
         projectService.delete(projectId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @DeleteMapping("/company/{companyId}/projects")
+    @PreAuthorize("hasAuthority('" + Permissions.DELETE_PROJECT + "')")
+    public ResponseEntity<HttpResponseModel<List<ProjectSummaryResponseModel>>> deleteAllByCompany(
+            @PathVariable("companyId") int companyId) {
+        projectService.deleteAllByCompanyId(companyId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }

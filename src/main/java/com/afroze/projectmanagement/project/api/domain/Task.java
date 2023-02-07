@@ -45,22 +45,11 @@ public class Task extends Auditable<String, Long> {
     }
 
     public Project getProject() {
-        Project copy = new Project();
-        copy.setTags(copy.getTags());
-        copy.setId(copy.getId());
-        copy.setTasks(copy.getTasks());
-        copy.setName(copy.getName());
-        copy.setCompanyId(copy.getCompanyId());
-        return copy;
+        return this.project;
     }
 
     public void setProject(Project project) {
-        this.project = new Project();
-        this.project.setTags(project.getTags());
-        this.project.setId(project.getId());
-        this.project.setTasks(project.getTasks());
-        this.project.setName(project.getName());
-        this.project.setCompanyId(project.getCompanyId());
+        this.project = project;
     }
 
     public BigDecimal getActualEffort() {

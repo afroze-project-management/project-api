@@ -28,4 +28,28 @@ public class ProjectResponseModel {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public List<TaskResponseModel> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskResponseModel> tasks) {
+        this.tasks = tasks;
+    }
+
+    public long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(long companyId) {
+        this.companyId = companyId;
+    }
 }

@@ -43,20 +43,20 @@ public class TaskResponseModel {
         this.estimatedEffort = estimatedEffort;
     }
 
-    public boolean isComplete() {
-        return isComplete;
-    }
-
-    public void setComplete(boolean complete) {
-        isComplete = complete;
-    }
-
     public BigDecimal getActualEffort() {
         return actualEffort;
     }
 
     public void setActualEffort(BigDecimal actualEffort) {
         this.actualEffort = actualEffort;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
     }
 
     public long getUserId() {

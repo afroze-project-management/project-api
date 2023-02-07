@@ -114,4 +114,19 @@ public class ProjectController {
         projectService.deleteAllByCompanyId(companyId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
+    @PutMapping("/project/{projectId}/")
+    @PreAuthorize("hasAuthority('" + Permissions.UPDATE_PROJECT + "')")
+    public ResponseEntity<HttpResponseModel<ProjectResponseModel>> update(
+            @PathVariable("projectId") long projectId,
+            @RequestBody @Valid ProjectResponseModel project) {
+        ProjectDto dto = mapper.map(project, ProjectDto.class);
+        try {
+            ProjectDto updatedCompany = projectService.update(projectId, dto);
+            ProjectResponseModel response = mapper.map(updatedCompany, ProjectResponseModel.class);
+            return ResponseEntity.status(HttpStatus.OK).body(HttpResponseModel.success(response));
+        } catch (ProjectNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(HttpResponseModel.failure(null, e.getLocalizedMessage()));
+        }
+    }
 }

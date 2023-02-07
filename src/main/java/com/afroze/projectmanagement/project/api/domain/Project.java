@@ -42,19 +42,19 @@ public class Project extends Auditable<String, Long> {
         this.tags = tags;
     }
 
-    public Set<Task> getTasks() {
-        return Collections.unmodifiableSet(tasks);
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = new HashSet<Task>(tasks);
-    }
-
     public long getCompanyId() {
         return companyId;
     }
 
     public void setCompanyId(long companyId) {
         this.companyId = companyId;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 }

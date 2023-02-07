@@ -1,7 +1,10 @@
 package com.afroze.projectmanagement.project.api.dto;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.List;
 
+@SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP"})
 public class ProjectDto {
     private long id;
 
@@ -41,14 +44,17 @@ public class ProjectDto {
         return companyId;
     }
 
+    @SuppressWarnings("unused")
     public void setCompanyId(long companyId) {
         this.companyId = companyId;
     }
 
+    @SuppressWarnings("unused")
     public void setTags(String tags) {
         this.tags = tags;
     }
 
+    @SuppressWarnings("unused")
     public List<TaskDto> getTasks() {
         return tasks;
     }

@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,11 +27,15 @@ public class ProjectController {
     private final ProjectService projectService;
     private final ModelMapper mapper;
 
+    private final Logger logger;
+
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP2")
     public ProjectController(ProjectService projectService, ModelMapper mapper) {
         this.projectService = projectService;
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         this.mapper = mapper;
+
+        this.logger = LoggerFactory.getLogger(ProjectController.class);
     }
 
     @GetMapping("/project")
@@ -48,6 +54,9 @@ public class ProjectController {
     @PreAuthorize("hasAuthority('" + Permissions.READ_PROJECT + "')")
     public ResponseEntity<HttpResponseModel<List<ProjectSummaryResponseModel>>> getAllByCompany(
             @PathVariable("companyId") int companyId) {
+
+        logger.info("Get All Projects by Company called");
+
         List<ProjectSummaryDto> projects = projectService.getAllByCompanyId(companyId);
         if(projects.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

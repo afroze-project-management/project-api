@@ -52,7 +52,9 @@ management:
   tracing:
     sampling:
       probability: 1.0
-
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_SERVER_URL}
 logging:
   pattern:
     level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'

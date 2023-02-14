@@ -1,5 +1,7 @@
 package com.afroze.projectmanagement.project.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.commons.util.InetUtils;
@@ -11,6 +13,13 @@ import java.net.UnknownHostException;
 
 @SpringBootApplication
 public class ProjectApiApplication {
+
+	private final Logger logger;
+
+	public ProjectApiApplication() {
+		this.logger = LoggerFactory.getLogger(ProjectApiApplication.class);
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectApiApplication.class, args);
 	}
@@ -22,7 +31,7 @@ public class ProjectApiApplication {
 		try {
 			ip = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			logger.info(e.getLocalizedMessage());
 		}
 
 		config.setIpAddress(ip);
